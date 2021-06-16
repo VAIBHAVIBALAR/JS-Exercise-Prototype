@@ -39,11 +39,36 @@ function Airplane(name) {
           + It should return a string with `name` and `age`. Example: "Mary, 50"
   */
   
- function Person() {
-    
+ function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
   }
+ Person.prototype.eat = function(edible){
+   if(this.stomach.length <= 10){
+     this.stomach.push(edible);
+   }
+ }
  
+ Person.prototype.poop = function(){
+   this.stomach = [];
+ }
+ Person.prototype.toString = function(){
+   return `${this.name}, ${this.age}`
+ }
  
+ const vai = new Person('vai', 25);
+ console.log(vai)
+ console.log(vai.eat('pizza'));
+ console.log(vai.eat('pasta'));
+ console.log(vai.eat('salad'));
+ console.log(vai.eat('spagetti'));
+ console.log(vai.eat('BBQ'));
+ console.log(vai.eat('cheese'));
+ console.log(vai.eat('fruits'));
+
+ console.log(vai.stomach);
+ vai.poop();
 
   
   
@@ -63,9 +88,28 @@ function Airplane(name) {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
   
- function Car() {
-    
+ function Car(model , milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
   }
+
+  Car.prototype.fill = function(gallons){
+    this.tank = this.tank + gallons;
+  }
+  Car.prototype.drive = function(distance){
+   if(distance > 0){
+    this.odometer = this.odometer++;
+    this.tank = this.tank--;
+   }
+  }
+   
+  const suzuki = new Car('Flat', '100');
+  console.log(suzuki);
+  console.log(suzuki.fill(20));
+  console.log(suzuki.drive(200));
+
   
   
   /*
@@ -75,10 +119,26 @@ function Airplane(name) {
       - Besides the methods on Person.prototype, babies have the ability to `.play()`:
           + Should return a string "Playing with x", x being the favorite toy.
   */
- function Baby() {
+ function Baby(name, age, favoriteToy) {
+   Person.call(this, name, age);
+   this.favoriteToy = favoriteToy;
    
   }
- 
+  Baby.prototype = Object.create(Person.prototype);
+  Baby.prototype.play = function(){
+    return `"Playing with ${this.favoriteToy}", ${this.favoriteToy} being the favorite toy. `
+  }
+ const harry = new Baby('harry', 2, 'softtoy' );
+ console.log(harry);
+ console.log(harry.play());
+ console.log(harry.eat('granola'));
+ console.log(harry.eat('plums'));
+ console.log(harry.eat('carrot'));
+ console.log(harry.eat('cheese'));
+ console.log(harry.eat('cake'));
+ console.log(harry.stomach);
+
+
   
   /* 
     TASK 4
