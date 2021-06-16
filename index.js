@@ -88,27 +88,40 @@ function Airplane(name) {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
   
- function Car(model , milesPerGallon) {
+ function Car(model , milesPerGallon)
+  {
+   
     this.model = model;
     this.milesPerGallon = milesPerGallon;
     this.tank = 0;
     this.odometer = 0;
+
   }
 
-  Car.prototype.fill = function(gallons){
+  Car.prototype.fill = function(gallons)
+  {
     this.tank = this.tank + gallons;
   }
-  Car.prototype.drive = function(distance){
-   if(distance > 0){
-    this.odometer = this.odometer++;
-    this.tank = this.tank--;
+
+  Car.prototype.drive = function(distance)
+  {
+   if(distance > 0 && this.tank !== 0)
+   {
+    this.odometer++;
+    this.tank = this.tank - this.milesPerGallon;
+    console.log(this.odometer);
+    console.log(this.tank);
+   }else if(distance > 0 && this.tank == 0)
+   {
+     return  `I ran out of fuel at ${this.odometer} miles`;
    }
+   
   }
    
   const suzuki = new Car('Flat', '100');
   console.log(suzuki);
-  console.log(suzuki.fill(20));
-  console.log(suzuki.drive(200));
+  console.log(suzuki.fill(0));
+  console.log(suzuki.drive(400));
 
   
   
@@ -119,13 +132,17 @@ function Airplane(name) {
       - Besides the methods on Person.prototype, babies have the ability to `.play()`:
           + Should return a string "Playing with x", x being the favorite toy.
   */
- function Baby(name, age, favoriteToy) {
+ function Baby(name, age, favoriteToy) 
+ {
    Person.call(this, name, age);
    this.favoriteToy = favoriteToy;
    
   }
+
   Baby.prototype = Object.create(Person.prototype);
-  Baby.prototype.play = function(){
+
+  Baby.prototype.play = function()
+  {
     return `"Playing with ${this.favoriteToy}", ${this.favoriteToy} being the favorite toy. `
   }
  const harry = new Baby('harry', 2, 'softtoy' );
@@ -143,10 +160,22 @@ function Airplane(name) {
   /* 
     TASK 4
     In your own words explain the four principles for the "this" keyword below:
-    1. 
-    2. 
-    3. 
-    4. 
+
+    1. Global binding- suppose we have a function in the global context and 
+    when we try to console.log this keyword we get the result as window or console object. 
+    Its not considered a good practice to use Global binding
+
+    2.Implicit Binding- Here we have object with context. So whenever a function
+     is called by a preceding dot, the object left of the dot gets this
+
+    3.New binding - We construct a new object using the new keyword and when a function
+     is invoked as a constructor function 'this' points to the newly created object.
+
+    4.Explicit binding- It mainly includes the call, apply and bind. Through call it
+     immediately invokes the function , we pass in arguments 1 by 1, through apply it  
+     immediately invokes the function , we pass arguments as an array, bind does not 
+     immediately invoke the function, instead it returns a brand new function that can be invoked later,
+     we pass in the arguments 1 by 1
   */
   
   
